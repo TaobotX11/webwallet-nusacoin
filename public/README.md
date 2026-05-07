@@ -26,7 +26,7 @@ wallet.nusacoin.org supports a number of key features such as:
 - An offical .onion address for tor users.
 - Offline qrcode creator and scanning tool.
 - HD (bip32) support.
-- Supports altcoins such as litecoin.
+- Supports altcoins such as nusacoin.
 - Replace by fee (RBF) Support.
 - Segwit Support.
 - Bech32 address support.
