@@ -235,11 +235,12 @@
 
 											<div class="btn-group">
 												<button type="button" class="btn btn-default btn-xs dropdown-toggle"
-													data-toggle="dropdown" id="walletToBtn">Legacy <span
+													data-toggle="dropdown" id="walletToBtn">SegWit/Bech32 <span
 														class="caret"></span></button>
 												<ul class="dropdown-menu">
-													<!-- <li><a href="javascript:;" id="walletToSegWit">SegWit</a></li>
-													<li><a href="javascript:;" id="walletToSegWitBech32">SegWit/Bech32</a></li> -->
+													<!-- <li><a href="javascript:;" id="walletToSegWit">SegWit</a></li> -->
+													<li><a href="javascript:;"
+															id="walletToSegWitBech32">SegWit/Bech32</a></li>
 													<li><a href="javascript:;" id="walletToLegacy">Legacy</a></li>
 												</ul>
 											</div>
@@ -265,21 +266,25 @@
 
 												<div class="col-md-6">
 													<label>Exchange</label>
-													<p><img src="images/hodlhodl16x.png" style="padding:2;"> <b><a
-																href="https://t.me/NusacoinX11"
-																target="_bank">KomodoDex</a></b><br>Decentralized
-														Exchange</p>
 													<p><img src="images/changelly16x.png" style="padding:2;"> <b><a
 																href="https://t.me/NusacoinX11"
-																target="_blank">Qutrade</a></b> <br>Central crypto
-														exchange</p>
+																target="https://qutrade.io/en/?market=nux_usdt">Qutrade</a></b>
+														<br>Central crypto
+														exchange
+													</p>
+													<p><img src="images/changelly16x.png" style="padding:2;"> <b><a
+																href="https://t.me/NusacoinX11"
+																target="https://qutrade.io/en/?market=nux_doge">Qutrade</a></b>
+														<br>Central crypto
+														exchange
+													</p>
 												</div>
 
 												<div class="col-md-6">
 													<label>Services</label>
 													<p><img src="images/bitrefill16x.png" style="padding:2;"> <b><a
-																href="https://t.me/cicxtaobot"
-																target="_bank">Taobot</a></b><br>Voucher</p>
+																href="https://t.me/NusacoinX11"
+																target="_bank">Nusacoin</a></b><br>Community</p>
 												</div>
 
 											</div>
@@ -303,8 +308,8 @@
 													</span>
 												</div>
 
-												<label>Private Key (AES256 encrypted key)</label>
-												<input class="form-control privkeyaes" type="text" readonly>
+												<!-- <label>Private Key (AES256 encrypted key)</label>
+												<input class="form-control privkeyaes" type="text" readonly> -->
 											</div>
 
 											<div id="walletSpend" class="walletOptions hidden">
@@ -731,10 +736,18 @@
 								data-target="#modalQrcodeScanner" forward-result="#redeemFrom"><span
 									class="glyphicon glyphicon-camera"></span></button>
 						</span>
-						<input type="text" id="redeemFrom" class="form-control" value="">
+						<input type="text" id="redeemFrom" class="form-control" value="" data-redeemType="legacy">
 						<span class="input-group-btn">
 							<button id="redeemFromBtn" class="btn btn-info" type="button">Load</button>
 						</span>
+					</div>
+					<div class="input-group-sm br-sm">
+						<input type="button" value="Legacy" class="btn btn-success" id="legacyRedeemTypeBtn"
+							disabled="disabled">
+						<input type="button" value="Segwit" class="btn btn-info" id="segwitRedeemTypeBtn"
+							disabled="disabled">
+						<input type="button" value="Bech32" class="btn btn-info" id="bech32RedeemTypeBtn"
+							disabled="disabled">
 					</div>
 
 					<br>
@@ -1625,9 +1638,10 @@
 
 				<div class="tab-pane tab-content" id="about">
 					<h2>About <small>open source nusacoin web wallet</small></h2>
-					<p>Version 1.7</p>
-					<p>Compatible with nusacoin core</p>
-					<p>Github <a href="https://github.com/OutCast3k/coinbin/">https://github.com/OutCast3k/coinbin/</a>
+					<p>Version 1.8</p>
+					<p>Compatible with Nusacoin core</p>
+					<p>Github <a
+							href="https://github.com/TaobotX11/webwallet-nusacoin">https://github.com/TaobotX11/webwallet-nusacoin</a>
 					</p>
 					<!-- <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">TOR <a href="http://coinbin3ravkwb24f7rmxx6w3snkjw45jhs5lxbh3yfeg3vpt6janwqd.onion"><i>coinbin</i>3ravkwb24f7rmxx6w3snkjw45jhs5lxbh3yfeg3vpt6janwqd.onion</a> | <i><s><a href="http://4zpinp6gdkjfplhk.onion">4zpinp6gdkjfplhk.onion</a></s></i></p> -->
 					<h3>What is NUX?</h3>
@@ -1791,7 +1805,7 @@
 				<br>
 				<p class="text-muted">This page uses javascript to generate your addresses and sign your transactions
 					within your browser, this means we <i>never</i> receive your private keys, this can be independently
-					verified by reviewing the source code on <a href="https://github.com/OutCast3k/coinbin/"
+					verified by reviewing the source code on <a href="https://github.com/TaobotX11/webwallet-nusacoin"
 						target="_blank">github</a>. You can even <a
 						href="https://github.com/OutCast3k/coinbin/archive/master.zip">download</a> this page and host
 					it yourself or run it offline!</p>
@@ -1803,7 +1817,7 @@
 
 	<div id="footer">
 		<div class="container text-right">
-			<p class="text-muted">Version 1.7</p>
+			<p class="text-muted">Version 1.8</p>
 		</div>
 	</div>
 

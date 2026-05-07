@@ -938,7 +938,8 @@ $(document).ready(function () {
 	/* redeem from button code */
 
 	$("#redeemFromBtn").click(function () {
-		var redeem = redeemingFrom($("#redeemFrom").val());
+		var redeemAddrType = $("#redeemFrom").attr('data-redeemType');
+		var redeem = redeemingFrom($("#redeemFrom").val(), redeemAddrType);
 
 		$("#redeemFromStatus, #redeemFromAddress").addClass('hidden');
 
@@ -948,7 +949,7 @@ $(document).ready(function () {
 		}
 
 		if (redeem.from == 'other') {
-			$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> The address or redeem script you have entered is invalid');
+			$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> The address or redeem script you have entered is invalid<br>(if bech32 redeem script entered - this still broken, use bech32 address of WIF key instead)');
 			return false;
 		}
 
@@ -999,18 +1000,41 @@ $(document).ready(function () {
 	});
 
 	/* function to determine what we are redeeming from */
-	function redeemingFrom(string) {
+	function redeemingFrom(string, redeemtype) {
 		var r = {};
 		var decode = coinjs.addressDecode(string);
+		if (decode.version == coinjs.priv) {
+			$("#legacyRedeemTypeBtn").removeAttr('disabled');
+			$("#segwitRedeemTypeBtn").removeAttr('disabled');
+			$("#bech32RedeemTypeBtn").removeAttr('disabled');
+		} else {
+			$("#legacyRedeemTypeBtn").attr('disabled', 'disabled');
+			$("#segwitRedeemTypeBtn").attr('disabled', 'disabled');
+			$("#bech32RedeemTypeBtn").attr('disabled', 'disabled');
+		}
+
 		if (decode.version == coinjs.pub) { // regular address
 			r.addr = string;
 			r.from = 'address';
 			r.redeemscript = false;
 		} else if (decode.version == coinjs.priv) { // wif key
-			var a = coinjs.wif2address(string);
+			var pubkey = coinjs.wif2pubkey(string).pubkey;
+			switch (redeemtype) {
+				case 'legacy':
+					var a = coinjs.wif2address(string);
+					break;
+				case 'segwit':
+					var a = coinjs.segwitAddress(pubkey);
+					break;
+				case 'bech32':
+					var a = coinjs.bech32Address(pubkey);
+					break;
+			}
 			r.addr = a['address'];
 			r.from = 'wif';
 			r.redeemscript = false;
+			r.redeemtype = redeemtype;
+			r.pubkey = pubkey;
 		} else if (decode.version == coinjs.multisig) { // multisig address
 			r.addr = '';
 			r.from = 'multisigAddress';
@@ -1023,6 +1047,7 @@ $(document).ready(function () {
 		} else {
 			var script = coinjs.script();
 			var decodeRs = script.decodeRedeemScript(string);
+
 			if (decodeRs) { // redeem script
 				r.addr = decodeRs['address'];
 				r.from = 'redeemScript';
@@ -1044,6 +1069,29 @@ $(document).ready(function () {
 		}
 		return r;
 	}
+
+	/* redeem type manual select */
+	$("#legacyRedeemTypeBtn").click(function () {
+		$("#redeemFrom").attr('data-redeemType', 'legacy');
+		$("#legacyRedeemTypeBtn").addClass('btn-success').removeClass('btn-info');
+		$("#segwitRedeemTypeBtn").addClass('btn-info').removeClass('btn-success');
+		$("#bech32RedeemTypeBtn").addClass('btn-info').removeClass('btn-success');
+		$("#redeemFromBtn").click();
+	});
+	$("#segwitRedeemTypeBtn").click(function () {
+		$("#redeemFrom").attr('data-redeemType', 'segwit');
+		$("#legacyRedeemTypeBtn").addClass('btn-info').removeClass('btn-success');
+		$("#segwitRedeemTypeBtn").addClass('btn-success').removeClass('btn-info');
+		$("#bech32RedeemTypeBtn").addClass('btn-info').removeClass('btn-success');
+		$("#redeemFromBtn").click();
+	});
+	$("#bech32RedeemTypeBtn").click(function () {
+		$("#redeemFrom").attr('data-redeemType', 'bech32');
+		$("#legacyRedeemTypeBtn").addClass('btn-info').removeClass('btn-success');
+		$("#segwitRedeemTypeBtn").addClass('btn-info').removeClass('btn-success');
+		$("#bech32RedeemTypeBtn").addClass('btn-success').removeClass('btn-info');
+		$("#redeemFromBtn").click();
+	});
 
 	/* mediator payment code for when you used a public key */
 	function mediatorPayment(redeem) {
@@ -1167,6 +1215,13 @@ $(document).ready(function () {
 					var tx = $(o).find("tx_hash").text();
 					var n = $(o).find("tx_output_n").text();
 					var script = (redeem.redeemscript == true) ? redeem.decodedRs : $(o).find("script").text();
+					if (redeem.redeemtype == 'segwit') {
+						var keyhash = [0x00, 0x14].concat(ripemd160(Crypto.SHA256(Crypto.util.hexToBytes(redeem.pubkey), { asBytes: true }), { asBytes: true }));
+						var script = Crypto.util.bytesToHex(keyhash);
+					}
+					if (redeem.redeemtype == 'bech32') {
+						var script = coinjs.bech32redeemscript(redeem.addr);
+					}
 					var amount = (($(o).find("value").text() * 1) / 100000000).toFixed(8);
 
 					addOutput(tx, n, script, amount);
