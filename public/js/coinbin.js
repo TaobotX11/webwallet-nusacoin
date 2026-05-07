@@ -2075,8 +2075,8 @@ $(document).ready(function () {
 				explorer_addr = "https://chain.so/address/LTC/";
 				coinjs.bech32.hrp = "ltc";
 			}
-			else if (coinjs.pub == 0x6f) { // NUX
-				coinjs.bech32.hrp = "tc";
+			else if (coinjs.pub == 0x111) { // NUX
+				coinjs.bech32.hrp = "tn";
 			}
 			else if (coinjs.pub == 0x1e) {   // DOGE
 				explorer_addr = "https://chain.so/address/DOGE/";
