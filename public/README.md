@@ -1,13 +1,13 @@
-coinbin
+WebWallet
 =======
 
 A Open Source Browser Based Bitcoin Wallet. Version 1.7 beta by OutCast3k
 
-Live version available at http://coinb.in/ or coinbin3ravkwb24f7rmxx6w3snkjw45jhs5lxbh3yfeg3vpt6janwqd.onion
+Live version available at https://wallet.nusacoin.org
 
-Github URL: https://github.com/OutCast3k/coinbin/
+Github URL: https://github.com/TaobotX11/webwallet-nusacoin
 
-Coinb.in supports a number of key features such as: 
+wallet.nusacoin.org supports a number of key features such as: 
 
 - Offline Compressed & uncompressed Address creation.
 - Offline Multisignature Address creation.
@@ -22,7 +22,7 @@ Coinb.in supports a number of key features such as:
 - Add custom data to transactions with the use of OP_RETURN.
 - Support current Dark Wallet Stealth Address structure (as of version Alpha 7) for outputs.
 - Brain wallet support.
-- Compatible with bitcoin-qt
+- Compatible with nusacoin-qt
 - An offical .onion address for tor users.
 - Offline qrcode creator and scanning tool.
 - HD (bip32) support.
@@ -30,7 +30,7 @@ Coinb.in supports a number of key features such as:
 - Replace by fee (RBF) Support.
 - Segwit Support.
 - Bech32 address support.
-- Fee calculator - https://coinb.in/#fees
+- Fee calculator
 - Transaction rebuild support for RBF and double spending.
 
-Donate to 33tht1bKDgZVxb39MnZsWa8oxHXHvUYE4G to see more development!
+Donate to NiNjA5G9A3wpkjWfgaoTh1nLVEP9Q3aML7 to see more development!
